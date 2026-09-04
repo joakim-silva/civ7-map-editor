@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Limespace Map Generator</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div>
+        <h1>Limespace Map Generator</h1>
+
+        <p>
+            Deterministic symmetrical Civilization VII map designer
+        </p>
+    </div>
+
+</header>
+
+
+<main class="app">
+
+
+    <aside class="controls">
+
+
+        <!-- =================================================
+             MAP
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Map</h2>
+
+
+            <label for="mapSize">
+                Grid Size
+            </label>
+
+            <select id="mapSize">
+
+                <option value="41">
+                    41 × 41
+                </option>
+
+                <option value="51">
+                    51 × 51
+                </option>
+
+                <option
+                    value="61"
+                    selected
+                >
+                    61 × 61
+                </option>
+
+                <option value="71">
+                    71 × 71
+                </option>
+
+            </select>
+
+
+            <label for="armLength">
+                Arm Length
+            </label>
+
+            <input
+                id="armLength"
+                type="range"
+                min="25"
+                max="45"
+                value="40"
+            >
+
+
+            <label for="armWidth">
+                Arm Width
+            </label>
+
+            <input
+                id="armWidth"
+                type="range"
+                min="3"
+                max="10"
+                value="6"
+            >
+
+
+            <label for="hubSize">
+                Centre Size
+            </label>
+
+            <input
+                id="hubSize"
+                type="range"
+                min="5"
+                max="18"
+                value="11"
+            >
+
+
+            <button id="generateButton">
+                Regenerate Snowflake
+            </button>
+
+
+            <button
+                id="toggleGridButton"
+                class="secondary"
+            >
+                Toggle Grid
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             TERRAIN
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Terrain Brush</h2>
+
+
+            <div class="brush-grid">
+
+                <button
+                    class="brush active"
+                    data-brush="grassland"
+                >
+                    🌱 Grass
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="plains"
+                >
+                    🌾 Plains
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="desert"
+                >
+                    🏜 Desert
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="tundra"
+                >
+                    ❄ Tundra
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="hill"
+                >
+                    ⛰ Hills
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="mountain"
+                >
+                    🏔 Mountain
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="forest"
+                >
+                    🌲 Forest
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="coast"
+                >
+                    🏝 Coast
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="ocean"
+                >
+                    🌊 Ocean
+                </button>
+
+
+                <button
+                    class="brush wide"
+                    data-brush="restore"
+                >
+                    ↶ Restore Generated Tile
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RIVERS
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Rivers</h2>
+
+
+            <button
+                id="regenerateRiversButton"
+                class="secondary"
+            >
+                ≋ Regenerate Rivers
+            </button>
+
+
+            <div class="brush-grid">
+
+                <button
+                    class="brush"
+                    data-brush="river-add"
+                >
+                    ≋ Add River
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="river-remove"
+                >
+                    ✕ Remove River
+                </button>
+
+            </div>
+
+
+            <button
+                id="clearRiversButton"
+                class="secondary"
+            >
+                Clear All Rivers
+            </button>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    id="showRiversToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                <span>
+                    Show rivers
+                </span>
+
+            </label>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    id="showFreshWaterToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                <span>
+                    Show freshwater access
+                </span>
+
+            </label>
+
+
+            <p class="hint">
+                Rivers are generated automatically with exact
+                six-way rotational symmetry. The river brushes
+                can be used for optional manual editing.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             RESOURCE SLOT BRUSH
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Resource Slot Brush</h2>
+
+
+            <div class="brush-grid">
+
+                <button
+                    class="brush"
+                    data-brush="slot-food"
+                >
+                    🍞 Food
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="slot-tradeable"
+                >
+                    💎 Tradeable
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="slot-strategic"
+                >
+                    ⚔ Strategic
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="slot-marine"
+                >
+                    🐟 Marine
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="slot-contested"
+                >
+                    ★ Contested
+                </button>
+
+
+                <button
+                    class="brush"
+                    data-brush="slot-any"
+                >
+                    ? Any Valid
+                </button>
+
+
+                <button
+                    class="brush wide"
+                    data-brush="clear-slot"
+                >
+                    ✕ Clear Resource Slot
+                </button>
+
+            </div>
+
+
+            <p class="hint">
+                Resource slots are abstract map-design positions.
+                The Civ VII exporter will later resolve them
+                into legal game resources.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             RESOURCE ENGINE
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Resource Engine</h2>
+
+
+            <label for="resourceDensity">
+                World Resource Density
+            </label>
+
+            <input
+                id="resourceDensity"
+                type="range"
+                min="0"
+                max="100"
+                value="38"
+            >
+
+
+            <div class="value-line">
+
+                <span>Density</span>
+
+                <strong id="resourceDensityValue">
+                    38%
+                </strong>
+
+            </div>
+
+
+            <label for="centralRichness">
+                Central Richness
+            </label>
+
+            <input
+                id="centralRichness"
+                type="range"
+                min="0"
+                max="100"
+                value="65"
+            >
+
+
+            <div class="value-line">
+
+                <span>Centre bonus</span>
+
+                <strong id="centralRichnessValue">
+                    65%
+                </strong>
+
+            </div>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    id="autoResourceToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                <span>
+                    Generate world resource slots
+                </span>
+
+            </label>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    id="showResourceSlotsToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                <span>
+                    Show resource slots
+                </span>
+
+            </label>
+
+        </section>
+
+
+        <!-- =================================================
+             SYMMETRY
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Symmetry</h2>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="symmetryToggle"
+                    checked
+                >
+
+                <span>
+                    Exact six-way hex symmetry
+                </span>
+
+            </label>
+
+
+            <p class="hint">
+                Terrain, resources and river edges are
+                copied by exact 60° cube-coordinate rotation.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             PLAYER STARTS
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Player Starts</h2>
+
+
+            <label for="startDistance">
+                Distance from Centre
+            </label>
+
+            <input
+                id="startDistance"
+                type="range"
+                min="8"
+                max="20"
+                value="14"
+            >
+
+
+            <div class="value-line">
+
+                <span>Distance</span>
+
+                <strong id="startDistanceValue">
+                    14
+                </strong>
+
+            </div>
+
+
+            <label for="startZoneRadius">
+                Start Zone Radius
+            </label>
+
+            <input
+                id="startZoneRadius"
+                type="range"
+                min="2"
+                max="6"
+                value="3"
+            >
+
+
+            <div class="value-line">
+
+                <span>Radius</span>
+
+                <strong id="startRadiusValue">
+                    3
+                </strong>
+
+            </div>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="showStartsToggle"
+                    checked
+                >
+
+                <span>
+                    Show player starts
+                </span>
+
+            </label>
+
+
+            <label class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="showStartZonesToggle"
+                    checked
+                >
+
+                <span>
+                    Show start zones
+                </span>
+
+            </label>
+
+        </section>
+
+
+        <!-- =================================================
+             BALANCE
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Start Balance</h2>
+
+
+            <div
+                id="balanceStatus"
+                class="balance-status"
+            >
+                Checking…
+            </div>
+
+
+            <div
+                id="balanceTable"
+                class="balance-table"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             MAP FILE
+             ================================================= -->
+
+        <section class="control-section">
+
+            <h2>Map File</h2>
+
+
+            <button
+                id="saveMapButton"
+                class="secondary"
+            >
+                💾 Save Map
+            </button>
+
+
+            <button
+                id="loadMapButton"
+                class="secondary"
+            >
+                ↥ Load Saved Map
+            </button>
+
+
+            <button
+                id="exportMapButton"
+                class="secondary"
+            >
+                ↓ Export JSON
+            </button>
+
+
+            <button
+                id="importMapButton"
+                class="secondary"
+            >
+                ↑ Import JSON
+            </button>
+
+
+            <button
+                id="exportCiv7Button"
+                class="secondary"
+            >
+                ↓ Export Civ VII
+            </button>
+
+
+            <input
+                id="importMapFile"
+                type="file"
+                accept=".json,application/json"
+                hidden
+            >
+
+
+            <p
+                id="mapFileStatus"
+                class="hint"
+            >
+                No map saved yet.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             INFO
+             ================================================= -->
+
+        <section class="control-section stats">
+
+            <h2>Map Information</h2>
+
+
+            <p>
+                Land tiles
+
+                <strong id="landCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                Coast tiles
+
+                <strong id="coastCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                Ocean tiles
+
+                <strong id="oceanCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                River edges
+
+                <strong id="riverCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                Freshwater land
+
+                <strong id="freshWaterCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                Resource slots
+
+                <strong id="resourceSlotCount">
+                    0
+                </strong>
+            </p>
+
+
+            <p>
+                Grid centre
+
+                <strong id="centreCoordinates">
+                    —
+                </strong>
+            </p>
+
+
+            <p>
+                Players
+
+                <strong>
+                    6
+                </strong>
+            </p>
+
+
+            <p>
+                Brush
+
+                <strong id="brushName">
+                    Grassland
+                </strong>
+            </p>
+
+        </section>
+
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAP
+         ===================================================== -->
+
+    <section class="map-panel">
+
+
+        <div class="map-toolbar">
+
+            <span>
+                Snowflake Editor — V0.10 Civ VII Export
+            </span>
+
+
+            <span id="coordinates">
+                X: — Y: —
+            </span>
+
+        </div>
+
+
+        <div class="canvas-container">
+
+            <canvas id="mapCanvas"></canvas>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

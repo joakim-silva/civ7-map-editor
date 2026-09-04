@@ -1,0 +1,571 @@
+/* =========================================================
+   LIMESPACE MAP GENERATOR
+   V0.9
+   ========================================================= */
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    background: #0d1219;
+    color: #f1f4f8;
+}
+
+
+body {
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    height: 78px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+
+    background: #111821;
+
+    border-bottom: 1px solid #283442;
+}
+
+
+.topbar h1 {
+    margin: 0;
+
+    font-size: 23px;
+    font-weight: 700;
+}
+
+
+.topbar p {
+    margin: 5px 0 0;
+
+    color: #9da9b8;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+.app {
+    display: grid;
+
+    grid-template-columns:
+        395px
+        minmax(0, 1fr);
+
+    height:
+        calc(
+            100vh - 78px
+        );
+}
+
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.controls {
+    background: #171d25;
+
+    border-right:
+        1px solid #313c48;
+
+    padding:
+        20px 27px 60px;
+
+    overflow-y: auto;
+}
+
+
+.control-section {
+    padding:
+        0 0 26px;
+
+    margin-bottom: 27px;
+
+    border-bottom:
+        1px solid #303946;
+}
+
+
+.control-section:last-child {
+    border-bottom: none;
+}
+
+
+.control-section h2 {
+    margin:
+        0 0 20px;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+.control-section label {
+    display: block;
+
+    margin:
+        16px 0 9px;
+
+    color: #d6dce4;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+select {
+    width: 100%;
+
+    padding:
+        12px 13px;
+
+    border-radius: 8px;
+
+    border:
+        1px solid #465464;
+
+    background: #212a36;
+
+    color: #ffffff;
+
+    font-size: 15px;
+}
+
+
+input[type="range"] {
+    width: 100%;
+
+    accent-color: #1686f3;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding:
+        13px 14px;
+
+    margin-top: 11px;
+
+    font: inherit;
+
+    font-size: 16px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    background: #f0f1f3;
+
+    color: #15191f;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.05s ease;
+}
+
+
+button:hover {
+    filter: brightness(1.05);
+}
+
+
+button:active {
+    transform: translateY(1px);
+}
+
+
+button.secondary,
+button.brush {
+    background: #252f3d;
+
+    color: #f1f5f9;
+
+    border:
+        1px solid #3b4858;
+}
+
+
+button.brush.active {
+    background: #435267;
+
+    border-color: #d5deea;
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(
+            255,
+            255,
+            255,
+            0.2
+        );
+}
+
+
+/* =========================================================
+   BRUSH GRID
+   ========================================================= */
+
+.brush-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 10px;
+}
+
+
+.brush-grid button {
+    margin: 0;
+
+    min-height: 53px;
+}
+
+
+.brush-grid .wide {
+    grid-column:
+        1 / -1;
+}
+
+
+/* =========================================================
+   CHECKBOXES
+   ========================================================= */
+
+.checkbox-row {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+}
+
+
+.checkbox-row input {
+    width: 18px;
+
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #1686f3;
+}
+
+
+.checkbox-row span {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   VALUE DISPLAY
+   ========================================================= */
+
+.value-line {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    margin-top: 6px;
+
+    font-size: 13px;
+
+    color: #aeb8c5;
+}
+
+
+.value-line strong {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   HINTS
+   ========================================================= */
+
+.hint {
+    margin:
+        13px 0 0;
+
+    color: #929eac;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   BALANCE
+   ========================================================= */
+
+.balance-status {
+    padding:
+        11px 12px;
+
+    margin-bottom: 12px;
+
+    border-radius: 7px;
+
+    background: #242e39;
+
+    color: #dfe6ee;
+
+    font-size: 13px;
+}
+
+
+.balance-status.good {
+    background: #173426;
+
+    color: #b8efcb;
+}
+
+
+.balance-status.bad {
+    background: #42252a;
+
+    color: #ffbbc1;
+}
+
+
+.balance-table {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.balance-row {
+    display: grid;
+
+    grid-template-columns:
+        42px 1fr;
+
+    gap: 8px;
+
+    padding: 8px;
+
+    border-radius: 7px;
+
+    background: #202833;
+}
+
+
+.balance-player {
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+.balance-data {
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    color: #bbc5d0;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats p {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    margin:
+        10px 0;
+
+    color: #aeb9c7;
+}
+
+
+.stats strong {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAP PANEL
+   ========================================================= */
+
+.map-panel {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #0e1821;
+}
+
+
+.map-toolbar {
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 20px;
+
+    padding:
+        0 16px;
+
+    border-bottom:
+        1px solid #31404e;
+
+    background: #151e28;
+
+    color: #bbc7d3;
+
+    font-size: 13px;
+}
+
+
+.canvas-container {
+    flex: 1;
+
+    overflow: auto;
+
+    padding: 12px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #162431,
+            #0d1822
+        );
+}
+
+
+canvas {
+    display: block;
+
+    margin: auto;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.controls::-webkit-scrollbar,
+.canvas-container::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+
+.controls::-webkit-scrollbar-track,
+.canvas-container::-webkit-scrollbar-track {
+    background: #151b22;
+}
+
+
+.controls::-webkit-scrollbar-thumb,
+.canvas-container::-webkit-scrollbar-thumb {
+    background: #4b5664;
+
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (
+    max-width: 900px
+) {
+
+    body {
+        overflow: auto;
+    }
+
+
+    .app {
+        display: block;
+
+        height: auto;
+    }
+
+
+    .controls {
+        height: auto;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #313c48;
+    }
+
+
+    .map-panel {
+        min-height: 700px;
+    }
+}
