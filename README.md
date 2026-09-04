@@ -4,6 +4,12 @@ A browser-based map editor and procedural map-generation tool designed for creat
 
 The project began as a tool for designing the **Limespace Snowflake** map, but is being developed as a reusable editor for creating custom Civ VII map layouts.
 
+## Live Demo
+
+Try the editor in your browser:
+
+https://joakim-silva.github.io/civ7-map-editor/
+
 ## Screenshots
 
 ### Map Editor
